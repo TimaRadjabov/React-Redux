@@ -1,10 +1,9 @@
 const initialState = {
    recipes: [],
    recipesLoadingStatus: 'idle',
-   filters: []
 }
 
-const reducer = (state = initialState, action) => {
+const recipes = (state = initialState, action) => {
    switch (action.type) {
        case 'RECIPES_FETCHING':
            return {
@@ -22,8 +21,23 @@ const reducer = (state = initialState, action) => {
                ...state,
                recipesLoadingStatus: 'error'
            }
+       case 'ACTIVE_FILTER_CHANGED':
+           return {
+               ...state,
+               activeFilter: action.payload,
+           }
+       case 'RECIPE_CREATED':
+           return {
+               ...state,
+               recipes: [...state.recipes, action.payload], 
+           }
+       case 'RECIPE_DELETED':
+           return {
+               ...state,
+               recipes: state.recipes.filter(item => item.id !== action.payload),
+           }
        default: return state
    }
 }
 
-export default reducer;
+export default recipes;

@@ -1,6 +1,7 @@
-import {createStore} from 'redux';
-import reducer from '../reducer/reducer';
+import {createStore, combineReducers} from 'redux';
+import filters from '../reducer/filter';
+import recipes from '../reducer/recipe';
 
-const store = createStore(reducer);
+const store = createStore(combineReducers({recipes, filters}));
 
 export default store;
