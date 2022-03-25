@@ -1,14 +1,56 @@
+import {useHttp} from '../../hooks/http.hook';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import classNames from 'classnames';
+
+import { filterFetching, filterFetched, filterFetchingError, activeFilterChanged } from '../../actions';
+
+
 
 const RecipesFilters = () => {
+
+    const { filters, filterLoadingStatus, activeFilter } = useSelector(state => state.filters);
+    const dispatch = useDispatch();
+    const {request} = useHttp();
+
+    useEffect(() => {
+        dispatch(filterFetching());
+        request('https://623440b96d5465eaa516b024.mockapi.io/filtres')
+            .then(data => dispatch(filterFetched(data)))
+            .catch(() => dispatch(filterFetchingError()))
+    }, []);
+
+    if (filterLoadingStatus === "loading") {
+        return <h3>Идет загрузка</h3>;
+    } else if (filterLoadingStatus === "error") {
+        return <h3 className="text-center mt-5">Ошибка загрузки</h3>
+    }
+
+    const filterRendering = (arr) => {
+        if (arr.length === 0) {
+            return <h4 className="text-center mt-5">Фильтры не найдены</h4>
+        }
+
+        return arr.map(({ name, className, label }) => {
+
+            const btnClass = classNames('btn', className, {
+                'active': name === activeFilter
+            });
+            return <button
+                key={name}
+                id={name}
+                className={btnClass}
+                onClick={() => dispatch(activeFilterChanged(name))}
+            >{label}</button>
+        })
+    }
+
     return (
         <div className="card shadow-lg mt-4">
             <div className="card-body">
                 <p className="card-text">фильтрация по составной</p>
                 <div className="btn-group">
-                    <button className="btn btn-outline-dark active">Все</button>
-                    <button className="btn btn-danger">Торт</button>
-                    <button className="btn btn-primary">Чизкейк</button>
-                    <button className="btn btn-success">Капкейк</button>
+                    {filterRendering(filters)}
                 </div>
             </div>
         </div>
