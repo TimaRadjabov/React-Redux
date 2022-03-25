@@ -2,7 +2,7 @@ import RecipeListItem from '../recipesListItem/RecipesListItem';
 import { useHttp } from '../../hooks/http.hook';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useCallback } from 'react';
-import { recipesFetching, recipesFetched, recipesFetchingError, recipeDeleted } from '../../actions';
+import {fetchRecipes, recipeDeleted } from '../../actions';
 import {createSelector} from 'reselect';
 import { CSSTransition, TransitionGroup} from 'react-transition-group';
 import './recipesList.css';
@@ -24,27 +24,24 @@ const RecipesList = () => {
     )
 
     const filteredRecipes = useSelector(filteredRecipesSelector)
-    const recipesLoadingStatus  = useSelector(state => state.recipesLoadingStatus);
+    const recipesLoadingStatus  = useSelector(state => state.recipes.recipesLoadingStatus);
     const dispatch = useDispatch();
     const { request } = useHttp();
 
     useEffect(() => {
-        dispatch(recipesFetching());
-        request("https://623440b96d5465eaa516b024.mockapi.io/recepts")
-            .then(res => dispatch(recipesFetched(res)))
-            .catch(() => dispatch(recipesFetchingError()))
+        dispatch(fetchRecipes(request))
     }, []);
 
     const deleteRecipe = useCallback((id)=>{
         request(`https://623440b96d5465eaa516b024.mockapi.io/recepts/${id}`, "DELETE")
-        .then(dispatch(recipeDeleted(id)))
+        .then(res => dispatch(recipeDeleted(res.id)))
         .catch(error => {
             throw Error(error);
         })
     }, [request]);
 
     if (recipesLoadingStatus === "loading") {
-        return <h3>Закгузка данных</h3>;
+        return <h3>Загрузка данных</h3>;
     } else if (recipesLoadingStatus === "error") {
         return <h3 className="text-center mt-5">Ошибка загрузки</h3>
     }
