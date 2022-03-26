@@ -2,9 +2,10 @@ import RecipeListItem from '../recipesListItem/RecipesListItem';
 import { useHttp } from '../../hooks/http.hook';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useCallback } from 'react';
-import {fetchRecipes, recipeDeleted } from '../../actions';
-import {createSelector} from 'reselect';
-import { CSSTransition, TransitionGroup} from 'react-transition-group';
+import { fetchRecipes } from '../../actions';
+import { recipeDelete } from './recipesSlice';
+import { createSelector } from 'reselect';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './recipesList.css';
 
 
@@ -14,17 +15,17 @@ const RecipesList = () => {
     const filteredRecipesSelector = createSelector(
         state => state.recipes.recipes,
         state => state.filters.activeFilter,
-        (recipes, filters)=>{
-            if(filters === 'all'){
+        (recipes, filters) => {
+            if (filters === 'all') {
                 return recipes;
-            }else {
+            } else {
                 return recipes.filter(item => item.element === filters)
             }
-        }        
+        }
     )
 
     const filteredRecipes = useSelector(filteredRecipesSelector)
-    const recipesLoadingStatus  = useSelector(state => state.recipes.recipesLoadingStatus);
+    const recipesLoadingStatus = useSelector(state => state.recipes.recipesLoadingStatus);
     const dispatch = useDispatch();
     const { request } = useHttp();
 
@@ -32,12 +33,11 @@ const RecipesList = () => {
         dispatch(fetchRecipes(request))
     }, []);
 
-    const deleteRecipe = useCallback((id)=>{
+    const deleteRecipe = useCallback((id) => {
         request(`https://623440b96d5465eaa516b024.mockapi.io/recepts/${id}`, "DELETE")
-        .then(res => dispatch(recipeDeleted(res.id)))
-        .catch(error => {
-            throw Error(error);
-        })
+            .then(res => console.log(res, 'deleted'))
+            .then(() => dispatch(recipeDelete(id)))
+            .catch(error => console.log(error))
     }, [request]);
 
     if (recipesLoadingStatus === "loading") {
@@ -50,19 +50,19 @@ const RecipesList = () => {
         if (arr.length === 0) {
             return (
                 <CSSTransition timeout={0} classNames='recipe'>
-                 <h3 className="text-center mt-5">Рецепты не были добавлены</h3> 
-                 </CSSTransition>
+                    <h3 className="text-center mt-5">Рецепты не были добавлены</h3>
+                </CSSTransition>
             )
         }
         return arr.map(({ id, ...props }) => {
             return (
-                <CSSTransition 
+                <CSSTransition
                     key={id}
                     timeout={500}
                     classNames="recipe">
-                        <RecipeListItem {...props} deleteRecipe={()=> deleteRecipe(id)}/>
-                    </CSSTransition>
-            ) 
+                    <RecipeListItem {...props} deleteRecipe={() => deleteRecipe(id)} />
+                </CSSTransition>
+            )
         })
     }
 
