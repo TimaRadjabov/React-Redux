@@ -2,7 +2,7 @@ import RecipeListItem from '../recipesListItem/RecipesListItem';
 import { useHttp } from '../../hooks/http.hook';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useCallback } from 'react';
-import { recipeDelete, fetchRecipes } from './recipesSlice';
+import { recipeDelete, fetchRecipes, selectAll } from './recipesSlice';
 import { createSelector } from '@reduxjs/toolkit';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import './recipesList.css';
@@ -12,7 +12,7 @@ import './recipesList.css';
 
 const RecipesList = () => {
     const filteredRecipesSelector = createSelector(
-        state => state.recipes.recipes,
+        selectAll,
         state => state.filters.activeFilter,
         (recipes, filters) => {
             if (filters === 'all') {

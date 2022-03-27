@@ -3,13 +3,16 @@ import { useState } from "react";
 import { useHttp } from '../../hooks/http.hook';
 import { recipeCreated } from '../recipesList/recipesSlice';
 import uuid from 'react-uuid';
+import store from '../../store';
+import { selectAll } from "../recipesFilters/filtersSlice";
 
 const RecipesAddForm = () => {
     const [name, setName] = useState('');
     const [desc, setDesc] = useState('');
     const [element, setElement] = useState('');
 
-    const { filters, filterLoadingStatus } = useSelector(state => state.filters);
+    const { filterLoadingStatus } = useSelector(state => state.filters);
+    const filters = selectAll(store.getState());
     const dispatch = useDispatch();
     const { request } = useHttp();
 
