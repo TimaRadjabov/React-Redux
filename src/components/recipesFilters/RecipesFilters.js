@@ -1,9 +1,10 @@
 import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {activeFilterChanged } from './filtersSlice';
 import classNames from 'classnames';
 
-import { filterFetching, filterFetched, filterFetchingError, activeFilterChanged } from '../../actions';
+import {fetchFilters} from '../../actions';
 
 
 
@@ -14,10 +15,7 @@ const RecipesFilters = () => {
     const {request} = useHttp();
 
     useEffect(() => {
-        dispatch(filterFetching());
-        request('https://623440b96d5465eaa516b024.mockapi.io/filtres')
-            .then(data => dispatch(filterFetched(data)))
-            .catch(() => dispatch(filterFetchingError()))
+        dispatch(fetchFilters(request));
     }, []);
 
     if (filterLoadingStatus === "loading") {

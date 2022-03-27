@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useHttp } from '../../hooks/http.hook';
-import { recipeCreated } from '../../actions';
+import { recipeCreated } from '../recipesList/recipesSlice';
 import uuid from 'react-uuid';
 
 const RecipesAddForm = () => {
