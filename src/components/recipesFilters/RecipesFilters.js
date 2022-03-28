@@ -1,16 +1,17 @@
 import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {activeFilterChanged } from './filtersSlice';
+import {activeFilterChanged,  fetchFilters, selectAll} from './filtersSlice';
 import classNames from 'classnames';
+import store from '../../store';
 
-import {fetchFilters} from '../../actions';
 
 
 
 const RecipesFilters = () => {
 
-    const { filters, filterLoadingStatus, activeFilter } = useSelector(state => state.filters);
+    const {  filterLoadingStatus, activeFilter } = useSelector(state => state.filters);
+    const filters = selectAll(store.getState());
     const dispatch = useDispatch();
     const {request} = useHttp();
 
