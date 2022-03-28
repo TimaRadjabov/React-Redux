@@ -11,7 +11,7 @@ import store from '../../store';
 const RecipesFilters = () => {
 
     const {  filterLoadingStatus, activeFilter } = useSelector(state => state.filters);
-    const filters = selectAll(store.getState());
+    const filters = useSelector(store => selectAll(store));
     const dispatch = useDispatch();
     const {request} = useHttp();
 
