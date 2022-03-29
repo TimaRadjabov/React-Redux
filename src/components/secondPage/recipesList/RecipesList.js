@@ -1,5 +1,5 @@
 import RecipeListItem from '../recipesListItem/RecipesListItem';
-import { useHttp } from '../../hooks/http.hook';
+import { useHttp } from '../../../hooks/http.hook';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useCallback } from 'react';
 import { recipeDelete, fetchRecipes, selectAll } from './recipesSlice';

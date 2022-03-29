@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import filters from '../components/recipesFilters/filtersSlice';
-import recipes from '../components/recipesList/recipesSlice';
+import filters from '../components/secondPage/recipesFilters/filtersSlice';
+import recipes from '../components/secondPage/recipesList/recipesSlice';
 
 
 const stringMiddleware = () => (next) => (action) => {

@@ -2,11 +2,14 @@
    width: 1180px;
    margin: 0 auto;
    box-sizing: border-box;
+   min-height: 100%;
+   display: flex;
+   flex-direction: column;
 }
 .app {
-   height: 100vh;
+   flex: 1 1 auto;
 }
-.content {
+.second__content {
    display: grid;
    grid-template-columns: 560px 440px;
    max-width: 1040px;
