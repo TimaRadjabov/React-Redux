@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {activeFilterChanged,  fetchFilters, selectAll} from './filtersSlice';
 import classNames from 'classnames';
-import store from '../../store';
 
 
 
