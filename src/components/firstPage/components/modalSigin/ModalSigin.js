@@ -2,14 +2,14 @@ import { useEffect, useState } from 'react';
 import './ModalSigin.css';
 
 
-const ModalSigin = ({handlerPass, handlerReg, checkOut}) => {
-	const [email, setEmail] = useState('');
+const ModalSigin = ({handlerPass, handlerReg, checkOut, conditionMail}) => {
 	const [pass, setPass] = useState('');
 	const [emailDirty, setEmailDirty] = useState(false);
 	const [passDirty, setPassDirty] = useState(false);
-	const [emailError, setEmailError] = useState('Email не может быть пустым');
 	const [passError, setPassError] = useState('Пароль не может быть пустым');
 	const [formValid, setFormValid]=useState(false);
+	const [email, setEmail] = useState('');
+	const [emailError, setEmailError] = useState('Email не может быть пустым');
 
 	useEffect (()=>{
 		if( emailError || passError){
@@ -30,18 +30,17 @@ const ModalSigin = ({handlerPass, handlerReg, checkOut}) => {
 		}
 	}
 
-	
-
-	
 	const onChangeEmail = (e) => {
 		setEmail(e.target.value)
-		const checkMail = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-		if(!checkMail.test(String(e.target.value).toLowerCase())){
+		if (!conditionMail.test(String(e.target.value).toLowerCase())) {
 			setEmailError('Некорректный email');
-		}else{
+		} else {
 			setEmailError("")
 		}
 	}
+
+	
+	
 
 	const onChangePass = (e) => {
 		setPass(e.target.value)
@@ -60,7 +59,7 @@ const ModalSigin = ({handlerPass, handlerReg, checkOut}) => {
 
 		<div className="input-form">
 			{(emailDirty && emailError) && <div style={{ color: "red" }}>{emailError}</div>}
-			<input 
+			<input  className='first'
 				placeholder='Введите номер телефона или email'
 				neme="email" type="text"
 				velue={email}
@@ -77,7 +76,7 @@ const ModalSigin = ({handlerPass, handlerReg, checkOut}) => {
 				placeholder='Пароль' />
 		</div>
 
-		<button className="button button__main"  disabled={!formValid} onClick={checkOut}><div className='inner sigin'>Войти</div></button>
+		<button className="btn btn-primary btn__modal"  disabled={!formValid} onClick={checkOut}><div className='inner sigin'>Войти</div></button>
 		<div className="submit">
 			<a href='#' className='forget'
 				onClick={handlerPass}>Забыли пароль?</a>

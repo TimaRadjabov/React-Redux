@@ -23,7 +23,7 @@ const Modal =(props)=>{
 
 	return(
 		<div className={backdropClasses} onClick={handleClose}>
-			<div className='modal' onClick={e => e.stopPropagation()}>
+			<div className='modal__all' onClick={e => e.stopPropagation()}>
 				<div className='modal-header'>
 					<h3>{title}</h3>
 				</div>
@@ -31,7 +31,7 @@ const Modal =(props)=>{
 					{children}
 				</div>
 			</div>
-		</div>		
+		</div>	
 	)
 }
 

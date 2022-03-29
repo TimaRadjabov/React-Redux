@@ -36,7 +36,7 @@
 	animation: showBackdrop 0.3s ease-out;
 	z-index: 1;
 }
-.modal{	
+.modal__all{	
 	background: #ffffff;
 	min-width: 400px;
 	min-height: 300px;
@@ -50,7 +50,7 @@
 	border-bottom: 1px solid rgb(219 219 219);
 }
 
-.modal-header h3{
+.modal-header h3{	
 	margin: 0;
 	font-size: 20px;
 	text-align: center;
